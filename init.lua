@@ -219,6 +219,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Close Neo-tree when opening a file
+vim.api.nvim_create_autocmd('BufEnter', {
+  callback = function()
+    if vim.bo.buftype == '' then
+      vim.cmd 'Neotree close'
+    end
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -405,15 +414,23 @@ require('lazy').setup({
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+      local actions = require 'telescope.actions'
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          -- delete buffers without leaving telescope
+          mappings = {
+            i = {
+              ['<c-d>'] = actions.delete_buffer,
+            },
+            n = {
+              ['<c-d>'] = actions.delete_buffer,
+              ['dd'] = actions.delete_buffer,
+            },
+          },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {

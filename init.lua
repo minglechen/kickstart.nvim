@@ -297,6 +297,12 @@ require('lazy').setup({
     },
   },
 
+  {
+    -- Adds git related signs to the gutter, as well as utilities for managing changes
+    'sindrets/diffview.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
+
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -719,6 +725,11 @@ require('lazy').setup({
             },
           },
         },
+        verible = { -- Lua LSP for Verible (SystemVerilog)
+          -- You can specify a custom command if verible-ls is not in your PATH
+          -- cmd = { 'verible-ls', '--stdio' },
+          filetypes = { 'systemverilog', 'verilog' },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -791,6 +802,10 @@ require('lazy').setup({
         lua = { 'stylua' },
         cpp = { 'clang_format' },
         c = { 'clang_format' },
+        sv = { 'verible' },
+        v = { 'verible' },
+        systemverilog = { 'verible' },
+        verilog = { 'verible' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
